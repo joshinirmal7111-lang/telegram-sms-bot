@@ -8,6 +8,11 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 TOKEN = os.environ.get("TOKEN")
 
 banks = ["SBI", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Bank"]
+bank_ids = ["VK-SBIATM", "AX-HDFCBK", "VM-ICICIB", "JD-KOTAKB", "BZ-AXISBK"]
+
+shop_ids = ["JD-AMAZON", "VM-FLIPKR", "BZ-SWIGGY", "AD-ZOMATO", "VK-MYNTRA"]
+
+otp_ids = ["AD-OTPMSG", "VK-VERIFY", "JD-SECURE"]
 shops = ["Amazon", "Flipkart", "Myntra", "Ajio", "Swiggy", "Zomato"]
 people = ["Rahul", "Amit", "Neha", "Priya", "Arjun", "Riya", "Karan"]
 
@@ -54,10 +59,12 @@ async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         amount = random.randint(10,10000)
 
-        number = random.choice(
-            ["98","97","96","95","94","93","92","91","90"]
-        ) + "".join(str(random.randint(0,9)) for _ in range(8))
-
+        number = random.choice([
+    random.choice(bank_ids),
+    random.choice(shop_ids),
+    random.choice(otp_ids),
+    random.choice(["98","97","96","95","94","93","92","91","90"]) + "".join(str(random.randint(0,9)) for _ in range(8))
+])
         timestamp = (now - random.randint(0, fourteen_months)) * 1000
 
         sms_type = random.choice([
