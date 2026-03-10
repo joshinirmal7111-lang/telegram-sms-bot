@@ -93,3 +93,5 @@ filename = f"sms_backup_{int(time.time())}.xml"
 tree.write(filename,encoding="utf-8",xml_declaration=True)
 
 print("SMS file generated:", filename)
+while True:
+    time.sleep(3600)
