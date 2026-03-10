@@ -13,7 +13,7 @@ people = ["Rahul", "Amit", "Neha", "Priya", "Arjun", "Riya", "Karan"]
 
 chat_msgs = [
     "Hey where are you?",
-    "Call me when you reach.",
+    "Call me when free.",
     "Let's meet tomorrow.",
     "Send me the address.",
     "Did you finish the work?"
@@ -22,33 +22,43 @@ chat_msgs = [
 spam_msgs = [
     "Congratulations! You won ₹5000 voucher.",
     "Get instant loan approval today.",
-    "Exclusive shopping offer for you.",
+    "Exclusive shopping offer for you."
 ]
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("SMS Generator Bot Ready.\nUse /generate 10000")
+    await update.message.reply_text(
+        "SMS Generator Bot Ready\n\nUse:\n/generate 15000"
+    )
 
 async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if len(context.args) == 0:
-        await update.message.reply_text("Usage: /generate 10000")
+        await update.message.reply_text("Example: /generate 15000")
         return
 
     count = int(context.args[0])
+
+    await update.message.reply_text(f"Generating {count} SMS...")
 
     root = ET.Element("smses")
     root.set("count", str(count))
 
     now = int(time.time())
-    one_year = 365 * 24 * 60 * 60
+
+    # 14 months range
+    fourteen_months = 14 * 30 * 24 * 60 * 60
 
     for i in range(count):
 
         sms = ET.SubElement(root, "sms")
 
         amount = random.randint(10,10000)
-        number = random.choice(["98","97","96","95","94","93","92","91","90"]) + "".join(str(random.randint(0,9)) for _ in range(8))
-        timestamp = (now - random.randint(0, one_year)) * 1000
+
+        number = random.choice(
+            ["98","97","96","95","94","93","92","91","90"]
+        ) + "".join(str(random.randint(0,9)) for _ in range(8))
+
+        timestamp = (now - random.randint(0, fourteen_months)) * 1000
 
         sms_type = random.choice([
             "credit","debit","upi","shopping",
@@ -94,7 +104,7 @@ async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     tree = ET.ElementTree(root)
     tree.write(filename, encoding="utf-8", xml_declaration=True)
 
-    await update.message.reply_text(f"Generated {count} SMS messages.\nFile: {filename}")
+    await update.message.reply_document(document=open(filename, "rb"))
 
 app = ApplicationBuilder().token(TOKEN).build()
 
