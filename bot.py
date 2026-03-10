@@ -59,12 +59,13 @@ async def generate(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         amount = random.randint(10,10000)
 
-        number = random.choice([
-    random.choice(bank_ids),
-    random.choice(shop_ids),
-    random.choice(otp_ids),
-    random.choice(["98","97","96","95","94","93","92","91","90"]) + "".join(str(random.randint(0,9)) for _ in range(8))
-])
+        all_senders = bank_ids + shop_ids + otp_ids
+
+number = random.choice(
+    all_senders + [
+        random.choice(["98","97","96","95","94","93","92","91","90"]) + "".join(str(random.randint(0,9)) for _ in range(8))
+    ]
+)
         timestamp = (now - random.randint(0, fourteen_months)) * 1000
 
         sms_type = random.choice([
