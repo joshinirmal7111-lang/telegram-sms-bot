@@ -2,7 +2,7 @@ import random
 import time
 import xml.etree.ElementTree as ET
 
-count = int(input("Enter number of SMS to generate: "))
+count = 25000
 
 root = ET.Element("smses")
 root.set("count", str(count))
